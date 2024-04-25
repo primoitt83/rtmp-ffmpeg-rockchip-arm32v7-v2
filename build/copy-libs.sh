@@ -82,6 +82,12 @@ for file in `echo libasound.so.2 \
   libpulse.so.0.24.1 \
   libpulse.so.0 \
   libpulse.so \
+  libX11-xcb.so.1 \
+  libX11-xcb.so.1.0.0 \
+  libX11.so.6 \
+  libX11.so.6.4.0 \
+  libapparmor.so.1 \
+  libapparmor.so.1.8.2 \
   librockchip_mpp.so \
   librockchip_vpu.so.0 \
   librockchip_vpu.so.1 \

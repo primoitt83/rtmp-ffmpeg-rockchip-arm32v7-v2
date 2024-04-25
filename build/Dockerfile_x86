@@ -10,10 +10,10 @@ FROM arm32v7/ubuntu:jammy as build-ffmpeg
 LABEL maintainer="primoitt83@gmail.com"
 
 COPY ${PWD}/ffmpeg.sh /
-#COPY ${PWD}/copy-libs.sh /
+COPY ${PWD}/copy-libs.sh /
 
 RUN chmod +x /ffmpeg.sh && /ffmpeg.sh
-# RUN chmod +x /copy-libs.sh && /copy-libs.sh
+RUN chmod +x /copy-libs.sh && /copy-libs.sh
 
 ##########################
 # Build the release image.
@@ -39,14 +39,14 @@ RUN apt-get clean autoclean
 RUN apt-get autoremove --yes
 RUN rm -rf /var/cache/* /tmp/* /var/lib/{apt,dpkg,cache,log}/
 
-RUN mkdir /usr/lib/pulseaudio
+RUN mkdir -p /usr/lib/arm-linux-gnueabihf/pulseaudio
 
 COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
 COPY --from=build-nginx /etc/nginx /etc/nginx
 COPY --from=build-ffmpeg /usr/local /usr/local
-# COPY --from=build-ffmpeg /usr_lib/. /usr/lib
-# COPY --from=build-ffmpeg /usr_local_lib/. /usr/local/lib
-# COPY --from=build-ffmpeg /usr_lib_pulseaudio/. /usr/lib/pulseaudio
+COPY --from=build-ffmpeg /usr_lib/. /usr/lib
+COPY --from=build-ffmpeg /usr_lib_arm-linux-gnueabihf/. /usr/lib/arm-linux-gnueabihf
+COPY --from=build-ffmpeg /usr_lib_arm-linux-gnueabihf_pulseaudio/. /usr/lib/arm-linux-gnueabihf/pulseaudio
 
 # Add NGINX path, config and static files.
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
